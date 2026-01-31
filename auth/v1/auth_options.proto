@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package auth.v1;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/fekuna/omnipos-proto/proto/auth/v1;authv1";
+
+// Custom option to mark an RPC method as a public endpoint that doesn't require authentication
+extend google.protobuf.MethodOptions {
+  // When set to true, the RPC method is accessible without authentication
+  bool public_endpoint = 50001;
+}
+
+// Future extensions can be added here:
+// extend google.protobuf.MethodOptions {
+//   repeated string required_roles = 50002;
+//   repeated string required_permissions = 50003;
+// }

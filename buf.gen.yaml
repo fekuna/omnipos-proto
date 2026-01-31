@@ -1,0 +1,27 @@
+version: v2
+
+plugins:
+  - remote: buf.build/protocolbuffers/go
+    out: proto
+    opt:
+      - paths=source_relative
+
+  - remote: buf.build/grpc/go
+    out: proto
+    opt:
+      - paths=source_relative
+
+  - remote: buf.build/grpc-ecosystem/gateway:v2.24.0
+    out: proto
+    opt:
+      - paths=source_relative
+
+  - remote: buf.build/bufbuild/validate-go
+    out: proto
+    opt:
+      - paths=source_relative
+
+  - remote: buf.build/grpc-ecosystem/openapiv2
+    out: openapi
+    opt:
+      - openapi_naming_strategy=simple
