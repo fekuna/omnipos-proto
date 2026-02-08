@@ -1,0 +1,466 @@
+syntax = "proto3";
+
+package product.v1;
+
+import "auth/v1/auth_options.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/fekuna/omnipos-proto/product/v1;productv1";
+// OpenAPI documentation
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "OmniPOS Product API"
+    version: "1.0"
+    description: "API for managing products, categories, and inventory"
+    contact: {
+      name: "OmniPOS API Support"
+      email: "api@omnipos.com"
+    }
+  }
+  schemes: HTTP
+  schemes: HTTPS
+  consumes: "application/json"
+  produces: "application/json"
+  security_definitions: {
+    security: {
+      key: "Bearer"
+      value: {
+        type: TYPE_API_KEY
+        in: IN_HEADER
+        name: "Authorization"
+        description: "JWT token for authentication"
+      }
+    }
+  }
+  security: {
+    security_requirement: {
+      key: "Bearer"
+      value: {}
+    }
+  }
+};
+
+// ========== CATEGORY SERVICE ==========
+
+service CategoryService {
+  rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse) {
+    option (google.api.http) = {
+      post: "/v1/categories"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Create Category"
+      description: "Create a new product category"
+      tags: "Categories"
+    };
+  }
+
+  rpc GetCategory(GetCategoryRequest) returns (GetCategoryResponse) {
+    option (google.api.http) = {get: "/v1/categories/{id}"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get Category"
+      description: "Get category by ID"
+      tags: "Categories"
+    };
+  }
+
+  rpc ListCategories(ListCategoriesRequest) returns (ListCategoriesResponse) {
+    option (google.api.http) = {get: "/v1/categories"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "List Categories"
+      description: "List all categories with optional filtering"
+      tags: "Categories"
+    };
+  }
+
+  rpc UpdateCategory(UpdateCategoryRequest) returns (UpdateCategoryResponse) {
+    option (google.api.http) = {
+      put: "/v1/categories/{id}"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Update Category"
+      description: "Update category details"
+      tags: "Categories"
+    };
+  }
+
+  rpc DeleteCategory(DeleteCategoryRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {delete: "/v1/categories/{id}"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Delete Category"
+      description: "Delete a category"
+      tags: "Categories"
+    };
+  }
+}
+
+// Category messages
+message Category {
+  string id = 1;
+  string merchant_id = 2;
+  string parent_id = 3;
+  string name = 4;
+  string description = 5;
+  string image_url = 6;
+  int32 sort_order = 7;
+  bool is_active = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+  repeated Category children = 11; // For tree structure
+}
+
+message CreateCategoryRequest {
+  string parent_id = 1;
+  string name = 2 [(validate.rules).string = {
+    min_len: 1
+    max_len: 100
+  }];
+  string description = 3;
+  string image_url = 4;
+  int32 sort_order = 5;
+}
+
+message GetCategoryRequest {
+  string id = 1 [(validate.rules).string.uuid = true];
+}
+
+message ListCategoriesRequest {
+  string parent_id = 1; // Filter by parent (empty = root categories)
+  bool is_active = 2;
+  bool include_children = 3; // Include subcategories in tree structure
+}
+
+message ListCategoriesResponse {
+  repeated Category categories = 1;
+  int32 total = 2;
+}
+
+message UpdateCategoryRequest {
+  string id = 1 [(validate.rules).string.uuid = true];
+  string parent_id = 2;
+  string name = 3 [(validate.rules).string = {
+    min_len: 1
+    max_len: 100
+  }];
+  string description = 4;
+  string image_url = 5;
+  int32 sort_order = 6;
+  bool is_active = 7;
+}
+
+message DeleteCategoryRequest {
+  string id = 1 [(validate.rules).string.uuid = true];
+}
+
+message CreateCategoryResponse {
+  Category category = 1;
+}
+
+message GetCategoryResponse {
+  Category category = 1;
+}
+
+message UpdateCategoryResponse {
+  Category category = 1;
+}
+
+// ========== PRODUCT SERVICE ==========
+
+service ProductService {
+  rpc CreateProduct(CreateProductRequest) returns (ProductResponse) {
+    option (google.api.http) = {
+      post: "/v1/products"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Create Product"
+      description: "Create a new product"
+      tags: "Products"
+    };
+  }
+
+  rpc GetProduct(GetProductRequest) returns (ProductResponse) {
+    option (google.api.http) = {get: "/v1/products/{id}"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get Product"
+      description: "Get product details by ID"
+      tags: "Products"
+    };
+  }
+
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse) {
+    option (google.api.http) = {get: "/v1/products"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "List Products"
+      description: "List products with pagination and filtering"
+      tags: "Products"
+    };
+  }
+
+  rpc SearchProducts(SearchProductsRequest) returns (ListProductsResponse) {
+    option (google.api.http) = {get: "/v1/products/search"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Search Products"
+      description: "Search products by name, SKU, or barcode"
+      tags: "Products"
+    };
+  }
+
+  rpc UpdateProduct(UpdateProductRequest) returns (ProductResponse) {
+    option (google.api.http) = {
+      put: "/v1/products/{id}"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Update Product"
+      description: "Update product details"
+      tags: "Products"
+    };
+  }
+
+  rpc DeleteProduct(DeleteProductRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {delete: "/v1/products/{id}"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Delete Product"
+      description: "Delete a product"
+      tags: "Products"
+    };
+  }
+
+  // Reserve stock for an order (Synchronous)
+  rpc ReserveStock(ReserveStockRequest) returns (ReserveStockResponse) {
+    option (google.api.http) = {
+      post: "/v1/products/reserve-stock"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Reserve Stock"
+      description: "Synchronously reserve stock for an order"
+      tags: "Inventory"
+    };
+  }
+}
+
+// Product messages
+message Product {
+  string id = 1;
+  string merchant_id = 2;
+  string category_id = 3;
+  string sku = 4;
+  string barcode = 5;
+  string name = 6;
+  string description = 7;
+  double base_price = 8;
+  double cost_price = 9;
+  double tax_rate = 10;
+  bool has_variants = 11;
+  bool track_inventory = 12;
+  string image_url = 13;
+  bool is_active = 14;
+  google.protobuf.Timestamp created_at = 15;
+  google.protobuf.Timestamp updated_at = 16;
+  Category category = 17; // Populated if requested
+  repeated ProductVariant variants = 18; // Populated if has_variants
+  int32 inventory_count = 19;
+}
+
+message CreateProductRequest {
+  string category_id = 1;
+  string sku = 2 [(validate.rules).string = {
+    min_len: 1
+    max_len: 100
+  }];
+  string barcode = 3;
+  string name = 4 [(validate.rules).string = {
+    min_len: 1
+    max_len: 200
+  }];
+  string description = 5;
+  double base_price = 6 [(validate.rules).double.gte = 0];
+  double cost_price = 7;
+  double tax_rate = 8 [(validate.rules).double = {
+    gte: 0
+    lte: 100
+  }];
+  bool has_variants = 9;
+  bool track_inventory = 10;
+  string image_url = 11;
+}
+
+message GetProductRequest {
+  string id = 1 [(validate.rules).string.uuid = true];
+  bool include_category = 2;
+  bool include_variants = 3;
+}
+
+message ListProductsRequest {
+  int32 page = 1 [(validate.rules).int32.gte = 1];
+  int32 page_size = 2 [(validate.rules).int32 = {
+    gte: 1
+    lte: 100
+  }];
+  string category_id = 3;
+  bool is_active = 4;
+  string sort_by = 5; // name, price, created_at
+  string sort_order = 6; // asc, desc
+}
+
+message SearchProductsRequest {
+  string query = 1 [(validate.rules).string.min_len = 1]; // Search by name, SKU, barcode
+  int32 limit = 2 [(validate.rules).int32 = {
+    gte: 1
+    lte: 50
+  }];
+}
+
+message ListProductsResponse {
+  repeated Product products = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message UpdateProductRequest {
+  string id = 1 [(validate.rules).string.uuid = true];
+  string category_id = 2;
+  string sku = 3;
+  string barcode = 4;
+  string name = 5;
+  string description = 6;
+  double base_price = 7;
+  double cost_price = 8;
+  double tax_rate = 9;
+  bool track_inventory = 10;
+  string image_url = 11;
+  bool is_active = 12;
+}
+
+message DeleteProductRequest {
+  string id = 1 [(validate.rules).string.uuid = true];
+}
+
+message ProductResponse {
+  Product product = 1;
+}
+
+message ReserveStockRequest {
+  message Item {
+    string product_id = 1;
+    string variant_id = 2;
+    int32 quantity = 3;
+  }
+  string order_id = 1;
+  repeated Item items = 2;
+}
+
+message ReserveStockResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// ========== PRODUCT VARIANT SERVICE ==========
+
+message ProductVariant {
+  string id = 1;
+  string product_id = 2;
+  string sku = 3;
+  string barcode = 4;
+  string variant_name = 5;
+  double price_adjustment = 6;
+  double cost_price = 7;
+  bool is_active = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
+service ProductVariantService {
+  rpc AddVariant(AddVariantRequest) returns (VariantResponse) {
+    option (google.api.http) = {
+      post: "/v1/products/{product_id}/variants"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Add Product Variant"
+      description: "Add a variant to a product"
+      tags: "Product Variants"
+    };
+  }
+
+  rpc ListVariants(ListVariantsRequest) returns (ListVariantsResponse) {
+    option (google.api.http) = {get: "/v1/products/{product_id}/variants"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "List Product Variants"
+      description: "List all variants for a product"
+      tags: "Product Variants"
+    };
+  }
+
+  rpc UpdateVariant(UpdateVariantRequest) returns (VariantResponse) {
+    option (google.api.http) = {
+      put: "/v1/products/{product_id}/variants/{variant_id}"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Update Product Variant"
+      description: "Update variant details"
+      tags: "Product Variants"
+    };
+  }
+
+  rpc DeleteVariant(DeleteVariantRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {delete: "/v1/products/{product_id}/variants/{variant_id}"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Delete Product Variant"
+      description: "Delete a variant"
+      tags: "Product Variants"
+    };
+  }
+}
+
+message AddVariantRequest {
+  string product_id = 1 [(validate.rules).string.uuid = true];
+  string sku = 2 [(validate.rules).string = {
+    min_len: 1
+    max_len: 100
+  }];
+  string barcode = 3;
+  string variant_name = 4 [(validate.rules).string = {
+    min_len: 1
+    max_len: 100
+  }];
+  double price_adjustment = 5;
+  double cost_price = 6;
+}
+
+message ListVariantsRequest {
+  string product_id = 1 [(validate.rules).string.uuid = true];
+}
+
+message ListVariantsResponse {
+  repeated ProductVariant variants = 1;
+}
+
+message UpdateVariantRequest {
+  string product_id = 1 [(validate.rules).string.uuid = true];
+  string variant_id = 2 [(validate.rules).string.uuid = true];
+  string sku = 3;
+  string barcode = 4;
+  string variant_name = 5;
+  double price_adjustment = 6;
+  double cost_price = 7;
+  bool is_active = 8;
+}
+
+message DeleteVariantRequest {
+  string product_id = 1 [(validate.rules).string.uuid = true];
+  string variant_id = 2 [(validate.rules).string.uuid = true];
+}
+
+message VariantResponse {
+  ProductVariant variant = 1;
+}
