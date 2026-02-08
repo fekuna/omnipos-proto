@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package omnipos.customer.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/fekuna/omnipos-proto/proto/customer/v1;customerv1";
+
+service CustomerService {
+  rpc CreateCustomer(CreateCustomerRequest) returns (CreateCustomerResponse) {
+    option (google.api.http) = {
+      post: "/v1/customers"
+      body: "*"
+    };
+  }
+
+  rpc GetCustomer(GetCustomerRequest) returns (GetCustomerResponse) {
+    option (google.api.http) = {get: "/v1/customers/{id}"};
+  }
+
+  rpc ListCustomers(ListCustomersRequest) returns (ListCustomersResponse) {
+    option (google.api.http) = {get: "/v1/customers"};
+  }
+
+  rpc UpdateCustomer(UpdateCustomerRequest) returns (UpdateCustomerResponse) {
+    option (google.api.http) = {
+      put: "/v1/customers/{id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteCustomer(DeleteCustomerRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {delete: "/v1/customers/{id}"};
+  }
+
+  rpc AddLoyaltyPoints(AddLoyaltyPointsRequest) returns (AddLoyaltyPointsResponse) {
+    option (google.api.http) = {
+      post: "/v1/customers/{customer_id}/loyalty"
+      body: "*"
+    };
+  }
+}
+
+message Customer {
+  string id = 1;
+  string merchant_id = 2;
+  string name = 3;
+  string phone = 4;
+  string email = 5;
+  string address = 6;
+  int32 loyalty_points = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+message CreateCustomerRequest {
+  string name = 1;
+  string phone = 2;
+  string email = 3;
+  string address = 4;
+}
+
+message CreateCustomerResponse {
+  string id = 1;
+}
+
+message GetCustomerRequest {
+  string id = 1;
+  string phone = 2; // Optional: lookup by phone
+}
+
+message GetCustomerResponse {
+  Customer customer = 1;
+}
+
+message ListCustomersRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  string search = 3; // Search by name or phone
+}
+
+message ListCustomersResponse {
+  repeated Customer customers = 1;
+  int32 total = 2;
+}
+
+message UpdateCustomerRequest {
+  string id = 1;
+  string name = 2;
+  string phone = 3;
+  string email = 4;
+  string address = 5;
+}
+
+message UpdateCustomerResponse {
+  Customer customer = 1;
+}
+
+message DeleteCustomerRequest {
+  string id = 1;
+}
+
+message AddLoyaltyPointsRequest {
+  string customer_id = 1;
+  int32 points = 2; // Can be negative to deduct
+}
+
+message AddLoyaltyPointsResponse {
+  int32 total_points = 1;
+}

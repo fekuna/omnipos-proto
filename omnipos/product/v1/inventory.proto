@@ -1,0 +1,163 @@
+syntax = "proto3";
+
+package omnipos.product.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "omnipos/auth/v1/auth_options.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/fekuna/omnipos-proto/gen/go/omnipos/product/v1;omniposproductv1";
+
+// ========== INVENTORY SERVICE ==========
+
+service InventoryService {
+  // Get inventory for a specific product
+  rpc GetProductInventory(GetProductInventoryRequest) returns (ProductInventoryResponse) {
+    option (google.api.http) = {get: "/v1/inventory/products/{product_id}"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get Product Inventory"
+      description: "Get inventory levels for a product across all stores"
+      tags: "Inventory"
+    };
+  }
+
+  // List low stock products
+  rpc ListLowStock(ListLowStockRequest) returns (ListLowStockResponse) {
+    option (google.api.http) = {get: "/v1/inventory/low-stock"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "List Low Stock"
+      description: "List products that are below their reorder point"
+      tags: "Inventory"
+    };
+  }
+
+  // Adjust inventory (increase/decrease)
+  rpc AdjustInventory(AdjustInventoryRequest) returns (InventoryEntry) {
+    option (google.api.http) = {
+      post: "/v1/inventory/adjust"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Adjust Inventory"
+      description: "Manually adjust inventory quantity"
+      tags: "Inventory"
+    };
+  }
+
+  // Transfer inventory between stores
+  rpc TransferInventory(TransferInventoryRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/v1/inventory/transfer"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Transfer Inventory"
+      description: "Transfer stock between stores"
+      tags: "Inventory"
+    };
+  }
+
+  // Get inventory movement history
+  rpc ListInventoryMovements(ListInventoryMovementsRequest) returns (ListInventoryMovementsResponse) {
+    option (google.api.http) = {get: "/v1/inventory/movements"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "List Inventory Movements"
+      description: "Get history of inventory changes"
+      tags: "Inventory"
+    };
+  }
+}
+
+message InventoryEntry {
+  string id = 1;
+  string merchant_id = 2;
+  string store_id = 3; // Empty/Null for warehouse
+  string product_id = 4;
+  string variant_id = 5;
+  double quantity = 6;
+  double reserved_quantity = 7;
+  double available_quantity = 8;
+  double reorder_point = 9;
+  double reorder_quantity = 10;
+  google.protobuf.Timestamp last_counted_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
+}
+
+message GetProductInventoryRequest {
+  string product_id = 1 [(validate.rules).string.uuid = true];
+  string store_id = 2; // Optional filter
+}
+
+message ProductInventoryResponse {
+  repeated InventoryEntry inventory = 1;
+}
+
+message ListLowStockRequest {
+  string store_id = 1;
+  int32 page = 2 [(validate.rules).int32.gte = 1];
+  int32 page_size = 3 [(validate.rules).int32 = {
+    gte: 1
+    lte: 100
+  }];
+}
+
+message ListLowStockResponse {
+  repeated InventoryEntry items = 1;
+  int32 total = 2;
+}
+
+message AdjustInventoryRequest {
+  string store_id = 1; // Empty for warehouse
+  string product_id = 2 [(validate.rules).string.uuid = true];
+  string variant_id = 3; // Optional
+  double quantity_change = 4 [(validate.rules).double.not_in = 0]; // Positive or negative
+  string reason = 5 [(validate.rules).string.min_len = 1];
+  string reference_id = 6;
+}
+
+message TransferInventoryRequest {
+  string source_store_id = 1; // Empty for warehouse
+  string target_store_id = 2; // Empty for warehouse
+  string product_id = 3 [(validate.rules).string.uuid = true];
+  string variant_id = 4; // Optional
+  double quantity = 5 [(validate.rules).double.gt = 0];
+  string reason = 6;
+}
+
+message ListInventoryMovementsRequest {
+  string product_id = 1;
+  string store_id = 2;
+  string movement_type = 3;
+  google.protobuf.Timestamp start_date = 4;
+  google.protobuf.Timestamp end_date = 5;
+  int32 page = 6 [(validate.rules).int32.gte = 1];
+  int32 page_size = 7 [(validate.rules).int32 = {
+    gte: 1
+    lte: 100
+  }];
+}
+
+message InventoryMovement {
+  string id = 1;
+  string merchant_id = 2;
+  string store_id = 3;
+  string product_id = 4;
+  string variant_id = 5;
+  string movement_type = 6;
+  double quantity_change = 7;
+  double quantity_before = 8;
+  double quantity_after = 9;
+  string reference_type = 10;
+  string reference_id = 11;
+  string notes = 12;
+  string created_by = 13;
+  google.protobuf.Timestamp created_at = 14;
+}
+
+message ListInventoryMovementsResponse {
+  repeated InventoryMovement movements = 1;
+  int32 total = 2;
+}

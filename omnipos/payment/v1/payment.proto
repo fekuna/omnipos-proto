@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package omnipos.payment.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/fekuna/omnipos-proto/gen/go/omnipos/payment/v1;omnipospaymentv1";
+
+service PaymentService {
+  // Create a new payment
+  rpc CreatePayment(CreatePaymentRequest) returns (CreatePaymentResponse) {
+    option (google.api.http) = {
+      post: "/v1/payments"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Create Payment"
+      description: "Create a new payment record"
+      tags: "Payment"
+    };
+  }
+
+  // Get payment details
+  rpc GetPayment(GetPaymentRequest) returns (GetPaymentResponse) {
+    option (google.api.http) = {get: "/v1/payments/{id}"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get Payment"
+      description: "Get details of a specific payment"
+      tags: "Payment"
+    };
+  }
+
+  // List payments
+  rpc ListPayments(ListPaymentsRequest) returns (ListPaymentsResponse) {
+    option (google.api.http) = {get: "/v1/payments"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "List Payments"
+      description: "List payments with filtering"
+      tags: "Payment"
+    };
+  }
+}
+
+// Enums
+
+enum PaymentMethod {
+  PAYMENT_METHOD_UNSPECIFIED = 0;
+  PAYMENT_METHOD_CASH = 1;
+  PAYMENT_METHOD_QRIS = 2;
+  PAYMENT_METHOD_DEBIT = 3;
+  PAYMENT_METHOD_CREDIT = 4;
+}
+
+enum PaymentStatus {
+  PAYMENT_STATUS_UNSPECIFIED = 0;
+  PAYMENT_STATUS_PENDING = 1;
+  PAYMENT_STATUS_SUCCESS = 2;
+  PAYMENT_STATUS_FAILED = 3;
+  PAYMENT_STATUS_REFUNDED = 4;
+}
+
+// Messages
+
+message Payment {
+  string id = 1;
+  string merchant_id = 2;
+  string order_id = 3;
+  double amount = 4;
+  PaymentMethod payment_method = 5;
+  PaymentStatus status = 6;
+  string reference_number = 7; // Optional, e.g. Trace ID, Receipt No
+  string provider = 8; // Optional, e.g. "Xendit", "Stripe", "Cash"
+
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
+// Requests & Responses
+
+message CreatePaymentRequest {
+  string order_id = 1 [(validate.rules).string.uuid = true];
+  double amount = 2 [(validate.rules).double.gt = 0];
+  PaymentMethod payment_method = 3 [(validate.rules).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+  string reference_number = 4; // Optional
+  string provider = 5; // Optional
+}
+
+message CreatePaymentResponse {
+  Payment payment = 1;
+}
+
+message GetPaymentRequest {
+  string id = 1; // Can get by Payment ID
+  string order_id = 2; // OR by Order ID (if ID is empty)
+}
+
+message GetPaymentResponse {
+  Payment payment = 1;
+}
+
+message ListPaymentsRequest {
+  int32 page = 1 [(validate.rules).int32.gte = 1];
+  int32 page_size = 2 [(validate.rules).int32 = {
+    gte: 1
+    lte: 100
+  }];
+
+  string order_id = 3;
+  PaymentMethod payment_method = 4;
+  PaymentStatus status = 5;
+
+  google.protobuf.Timestamp start_date = 6;
+  google.protobuf.Timestamp end_date = 7;
+}
+
+message ListPaymentsResponse {
+  repeated Payment payments = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
