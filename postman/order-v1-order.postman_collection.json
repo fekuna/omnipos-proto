@@ -1,0 +1,805 @@
+{
+    "item": [
+        {
+            "name": "v1",
+            "description": "",
+            "item": [
+                {
+                    "name": "dashboard",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "stats",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "67a070de-9343-4867-b7ea-5172078569a4",
+                                    "name": "Get Dashboard Stats",
+                                    "request": {
+                                        "name": "Get Dashboard Stats",
+                                        "description": {
+                                            "content": "Get aggregated metrics for the dashboard",
+                                            "type": "text/plain"
+                                        },
+                                        "url": {
+                                            "path": [
+                                                "v1",
+                                                "dashboard",
+                                                "stats"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "startDate",
+                                                    "value": "<dateTime>"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "endDate",
+                                                    "value": "<dateTime>"
+                                                }
+                                            ],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "GET",
+                                        "body": {},
+                                        "auth": null
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "ea0d2f31-2b14-4816-b1a2-71673acc17be",
+                                            "name": "A successful response.",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "v1",
+                                                        "dashboard",
+                                                        "stats"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [
+                                                        {
+                                                            "disabled": false,
+                                                            "description": {
+                                                                "content": "",
+                                                                "type": "text/plain"
+                                                            },
+                                                            "key": "startDate",
+                                                            "value": "<dateTime>"
+                                                        },
+                                                        {
+                                                            "disabled": false,
+                                                            "description": {
+                                                                "content": "",
+                                                                "type": "text/plain"
+                                                            },
+                                                            "key": "endDate",
+                                                            "value": "<dateTime>"
+                                                        }
+                                                    ],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "application/json"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {}
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "body": "{\n  \"totalRevenue\": \"<double>\",\n  \"totalOrders\": \"<integer>\",\n  \"totalItemsSold\": \"<integer>\",\n  \"revenueTrendPercent\": \"<double>\",\n  \"ordersTrendPercent\": \"<double>\",\n  \"salesChart\": [\n    {\n      \"date\": \"<string>\",\n      \"total\": \"<double>\"\n    },\n    {\n      \"date\": \"<string>\",\n      \"total\": \"<double>\"\n    }\n  ],\n  \"topProducts\": [\n    {\n      \"productName\": \"<string>\",\n      \"salesCount\": \"<integer>\",\n      \"revenue\": \"<double>\"\n    },\n    {\n      \"productName\": \"<string>\",\n      \"salesCount\": \"<integer>\",\n      \"revenue\": \"<double>\"\n    }\n  ],\n  \"recentTransactions\": [\n    {\n      \"id\": \"<string>\",\n      \"merchantId\": \"<string>\",\n      \"storeId\": \"<string>\",\n      \"customerId\": \"<string>\",\n      \"cashierId\": \"<string>\",\n      \"orderNumber\": \"<string>\",\n      \"status\": \"ORDER_STATUS_UNSPECIFIED\",\n      \"paymentMethod\": \"PAYMENT_METHOD_UNSPECIFIED\",\n      \"subtotal\": \"<double>\",\n      \"taxAmount\": \"<double>\",\n      \"discountAmount\": \"<double>\",\n      \"totalAmount\": \"<double>\",\n      \"paidAmount\": \"<double>\",\n      \"changeAmount\": \"<double>\",\n      \"items\": [\n        {\n          \"id\": \"<string>\",\n          \"productId\": \"<string>\",\n          \"productName\": \"<string>\",\n          \"variantId\": \"<string>\",\n          \"variantName\": \"<string>\",\n          \"quantity\": \"<double>\",\n          \"unitPrice\": \"<double>\",\n          \"totalPrice\": \"<double>\",\n          \"notes\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"productId\": \"<string>\",\n          \"productName\": \"<string>\",\n          \"variantId\": \"<string>\",\n          \"variantName\": \"<string>\",\n          \"quantity\": \"<double>\",\n          \"unitPrice\": \"<double>\",\n          \"totalPrice\": \"<double>\",\n          \"notes\": \"<string>\"\n        }\n      ],\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"merchantId\": \"<string>\",\n      \"storeId\": \"<string>\",\n      \"customerId\": \"<string>\",\n      \"cashierId\": \"<string>\",\n      \"orderNumber\": \"<string>\",\n      \"status\": \"ORDER_STATUS_UNSPECIFIED\",\n      \"paymentMethod\": \"PAYMENT_METHOD_UNSPECIFIED\",\n      \"subtotal\": \"<double>\",\n      \"taxAmount\": \"<double>\",\n      \"discountAmount\": \"<double>\",\n      \"totalAmount\": \"<double>\",\n      \"paidAmount\": \"<double>\",\n      \"changeAmount\": \"<double>\",\n      \"items\": [\n        {\n          \"id\": \"<string>\",\n          \"productId\": \"<string>\",\n          \"productName\": \"<string>\",\n          \"variantId\": \"<string>\",\n          \"variantName\": \"<string>\",\n          \"quantity\": \"<double>\",\n          \"unitPrice\": \"<double>\",\n          \"totalPrice\": \"<double>\",\n          \"notes\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"productId\": \"<string>\",\n          \"productName\": \"<string>\",\n          \"variantId\": \"<string>\",\n          \"variantName\": \"<string>\",\n          \"quantity\": \"<double>\",\n          \"unitPrice\": \"<double>\",\n          \"totalPrice\": \"<double>\",\n          \"notes\": \"<string>\"\n        }\n      ],\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\"\n    }\n  ]\n}",
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "json"
+                                        },
+                                        {
+                                            "id": "46535acc-d448-435e-9a90-fa59798816a2",
+                                            "name": "An unexpected error response.",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "v1",
+                                                        "dashboard",
+                                                        "stats"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [
+                                                        {
+                                                            "disabled": false,
+                                                            "description": {
+                                                                "content": "",
+                                                                "type": "text/plain"
+                                                            },
+                                                            "key": "startDate",
+                                                            "value": "<dateTime>"
+                                                        },
+                                                        {
+                                                            "disabled": false,
+                                                            "description": {
+                                                                "content": "",
+                                                                "type": "text/plain"
+                                                            },
+                                                            "key": "endDate",
+                                                            "value": "<dateTime>"
+                                                        }
+                                                    ],
+                                                    "variable": []
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "application/json"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {}
+                                            },
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"details\": [\n    {\n      \"@type\": \"<string>\",\n      \"key_0\": \"string\"\n    },\n    {\n      \"@type\": \"<string>\",\n      \"key_0\": 3621.887338879819,\n      \"key_1\": 779,\n      \"key_2\": true\n    }\n  ]\n}",
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "json"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "orders",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "05795b98-80b9-4ccb-a5fe-2d2435bf2dc4",
+                            "name": "List Orders",
+                            "request": {
+                                "name": "List Orders",
+                                "description": {
+                                    "content": "List orders with usage filtering",
+                                    "type": "text/plain"
+                                },
+                                "url": {
+                                    "path": [
+                                        "v1",
+                                        "orders"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "",
+                                                "type": "text/plain"
+                                            },
+                                            "key": "page",
+                                            "value": "<integer>"
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "",
+                                                "type": "text/plain"
+                                            },
+                                            "key": "pageSize",
+                                            "value": "<integer>"
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "",
+                                                "type": "text/plain"
+                                            },
+                                            "key": "storeId",
+                                            "value": "<string>"
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "",
+                                                "type": "text/plain"
+                                            },
+                                            "key": "customerId",
+                                            "value": "<string>"
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": " (This can only be one of ORDER_STATUS_UNSPECIFIED,ORDER_STATUS_PENDING,ORDER_STATUS_PAID,ORDER_STATUS_CANCELLED,ORDER_STATUS_REFUNDED)",
+                                                "type": "text/plain"
+                                            },
+                                            "key": "status",
+                                            "value": "ORDER_STATUS_UNSPECIFIED"
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "",
+                                                "type": "text/plain"
+                                            },
+                                            "key": "startDate",
+                                            "value": "<dateTime>"
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "",
+                                                "type": "text/plain"
+                                            },
+                                            "key": "endDate",
+                                            "value": "<dateTime>"
+                                        }
+                                    ],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "GET",
+                                "body": {},
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "ebb20e97-306b-4348-8889-3a4c3b8a265f",
+                                    "name": "A successful response.",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "v1",
+                                                "orders"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "page",
+                                                    "value": "<integer>"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "pageSize",
+                                                    "value": "<integer>"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "storeId",
+                                                    "value": "<string>"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "customerId",
+                                                    "value": "<string>"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": " (This can only be one of ORDER_STATUS_UNSPECIFIED,ORDER_STATUS_PENDING,ORDER_STATUS_PAID,ORDER_STATUS_CANCELLED,ORDER_STATUS_REFUNDED)",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "status",
+                                                    "value": "ORDER_STATUS_UNSPECIFIED"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "startDate",
+                                                    "value": "<dateTime>"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "endDate",
+                                                    "value": "<dateTime>"
+                                                }
+                                            ],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "GET",
+                                        "body": {}
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"orders\": [\n    {\n      \"id\": \"<string>\",\n      \"merchantId\": \"<string>\",\n      \"storeId\": \"<string>\",\n      \"customerId\": \"<string>\",\n      \"cashierId\": \"<string>\",\n      \"orderNumber\": \"<string>\",\n      \"status\": \"ORDER_STATUS_UNSPECIFIED\",\n      \"paymentMethod\": \"PAYMENT_METHOD_UNSPECIFIED\",\n      \"subtotal\": \"<double>\",\n      \"taxAmount\": \"<double>\",\n      \"discountAmount\": \"<double>\",\n      \"totalAmount\": \"<double>\",\n      \"paidAmount\": \"<double>\",\n      \"changeAmount\": \"<double>\",\n      \"items\": [\n        {\n          \"id\": \"<string>\",\n          \"productId\": \"<string>\",\n          \"productName\": \"<string>\",\n          \"variantId\": \"<string>\",\n          \"variantName\": \"<string>\",\n          \"quantity\": \"<double>\",\n          \"unitPrice\": \"<double>\",\n          \"totalPrice\": \"<double>\",\n          \"notes\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"productId\": \"<string>\",\n          \"productName\": \"<string>\",\n          \"variantId\": \"<string>\",\n          \"variantName\": \"<string>\",\n          \"quantity\": \"<double>\",\n          \"unitPrice\": \"<double>\",\n          \"totalPrice\": \"<double>\",\n          \"notes\": \"<string>\"\n        }\n      ],\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"merchantId\": \"<string>\",\n      \"storeId\": \"<string>\",\n      \"customerId\": \"<string>\",\n      \"cashierId\": \"<string>\",\n      \"orderNumber\": \"<string>\",\n      \"status\": \"ORDER_STATUS_UNSPECIFIED\",\n      \"paymentMethod\": \"PAYMENT_METHOD_UNSPECIFIED\",\n      \"subtotal\": \"<double>\",\n      \"taxAmount\": \"<double>\",\n      \"discountAmount\": \"<double>\",\n      \"totalAmount\": \"<double>\",\n      \"paidAmount\": \"<double>\",\n      \"changeAmount\": \"<double>\",\n      \"items\": [\n        {\n          \"id\": \"<string>\",\n          \"productId\": \"<string>\",\n          \"productName\": \"<string>\",\n          \"variantId\": \"<string>\",\n          \"variantName\": \"<string>\",\n          \"quantity\": \"<double>\",\n          \"unitPrice\": \"<double>\",\n          \"totalPrice\": \"<double>\",\n          \"notes\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"productId\": \"<string>\",\n          \"productName\": \"<string>\",\n          \"variantId\": \"<string>\",\n          \"variantName\": \"<string>\",\n          \"quantity\": \"<double>\",\n          \"unitPrice\": \"<double>\",\n          \"totalPrice\": \"<double>\",\n          \"notes\": \"<string>\"\n        }\n      ],\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\"\n    }\n  ],\n  \"total\": \"<integer>\",\n  \"page\": \"<integer>\",\n  \"pageSize\": \"<integer>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                },
+                                {
+                                    "id": "e2cc064a-9613-4cb6-846a-a0effd309ad2",
+                                    "name": "An unexpected error response.",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "v1",
+                                                "orders"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "page",
+                                                    "value": "<integer>"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "pageSize",
+                                                    "value": "<integer>"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "storeId",
+                                                    "value": "<string>"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "customerId",
+                                                    "value": "<string>"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": " (This can only be one of ORDER_STATUS_UNSPECIFIED,ORDER_STATUS_PENDING,ORDER_STATUS_PAID,ORDER_STATUS_CANCELLED,ORDER_STATUS_REFUNDED)",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "status",
+                                                    "value": "ORDER_STATUS_UNSPECIFIED"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "startDate",
+                                                    "value": "<dateTime>"
+                                                },
+                                                {
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "",
+                                                        "type": "text/plain"
+                                                    },
+                                                    "key": "endDate",
+                                                    "value": "<dateTime>"
+                                                }
+                                            ],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "GET",
+                                        "body": {}
+                                    },
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"details\": [\n    {\n      \"@type\": \"<string>\",\n      \"key_0\": \"string\"\n    },\n    {\n      \"@type\": \"<string>\",\n      \"key_0\": 3621.887338879819,\n      \"key_1\": 779,\n      \"key_2\": true\n    }\n  ]\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        },
+                        {
+                            "id": "f721bfc3-e5a4-408c-98af-322492dc7e4a",
+                            "name": "Create Order",
+                            "request": {
+                                "name": "Create Order",
+                                "description": {
+                                    "content": "Create a new order with items",
+                                    "type": "text/plain"
+                                },
+                                "url": {
+                                    "path": [
+                                        "v1",
+                                        "orders"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"storeId\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"paymentMethod\": \"PAYMENT_METHOD_UNSPECIFIED\",\n  \"items\": [\n    {\n      \"productId\": \"<string>\",\n      \"variantId\": \"<string>\",\n      \"quantity\": \"<double>\",\n      \"unitPrice\": \"<double>\",\n      \"notes\": \"<string>\"\n    },\n    {\n      \"productId\": \"<string>\",\n      \"variantId\": \"<string>\",\n      \"quantity\": \"<double>\",\n      \"unitPrice\": \"<double>\",\n      \"notes\": \"<string>\"\n    }\n  ],\n  \"paidAmount\": \"<double>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "1711a18a-e8f7-4503-8c53-fd22decf3ad0",
+                                    "name": "A successful response.",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "v1",
+                                                "orders"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"storeId\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"paymentMethod\": \"PAYMENT_METHOD_UNSPECIFIED\",\n  \"items\": [\n    {\n      \"productId\": \"<string>\",\n      \"variantId\": \"<string>\",\n      \"quantity\": \"<double>\",\n      \"unitPrice\": \"<double>\",\n      \"notes\": \"<string>\"\n    },\n    {\n      \"productId\": \"<string>\",\n      \"variantId\": \"<string>\",\n      \"quantity\": \"<double>\",\n      \"unitPrice\": \"<double>\",\n      \"notes\": \"<string>\"\n    }\n  ],\n  \"paidAmount\": \"<double>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"order\": {\n    \"id\": \"<string>\",\n    \"merchantId\": \"<string>\",\n    \"storeId\": \"<string>\",\n    \"customerId\": \"<string>\",\n    \"cashierId\": \"<string>\",\n    \"orderNumber\": \"<string>\",\n    \"status\": \"ORDER_STATUS_UNSPECIFIED\",\n    \"paymentMethod\": \"PAYMENT_METHOD_UNSPECIFIED\",\n    \"subtotal\": \"<double>\",\n    \"taxAmount\": \"<double>\",\n    \"discountAmount\": \"<double>\",\n    \"totalAmount\": \"<double>\",\n    \"paidAmount\": \"<double>\",\n    \"changeAmount\": \"<double>\",\n    \"items\": [\n      {\n        \"id\": \"<string>\",\n        \"productId\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"variantId\": \"<string>\",\n        \"variantName\": \"<string>\",\n        \"quantity\": \"<double>\",\n        \"unitPrice\": \"<double>\",\n        \"totalPrice\": \"<double>\",\n        \"notes\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"productId\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"variantId\": \"<string>\",\n        \"variantName\": \"<string>\",\n        \"quantity\": \"<double>\",\n        \"unitPrice\": \"<double>\",\n        \"totalPrice\": \"<double>\",\n        \"notes\": \"<string>\"\n      }\n    ],\n    \"createdAt\": \"<dateTime>\",\n    \"updatedAt\": \"<dateTime>\"\n  }\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                },
+                                {
+                                    "id": "024c29ed-ceb0-451e-85b9-9553d895066c",
+                                    "name": "An unexpected error response.",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "v1",
+                                                "orders"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"storeId\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"paymentMethod\": \"PAYMENT_METHOD_UNSPECIFIED\",\n  \"items\": [\n    {\n      \"productId\": \"<string>\",\n      \"variantId\": \"<string>\",\n      \"quantity\": \"<double>\",\n      \"unitPrice\": \"<double>\",\n      \"notes\": \"<string>\"\n    },\n    {\n      \"productId\": \"<string>\",\n      \"variantId\": \"<string>\",\n      \"quantity\": \"<double>\",\n      \"unitPrice\": \"<double>\",\n      \"notes\": \"<string>\"\n    }\n  ],\n  \"paidAmount\": \"<double>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"details\": [\n    {\n      \"@type\": \"<string>\",\n      \"key_0\": \"string\"\n    },\n    {\n      \"@type\": \"<string>\",\n      \"key_0\": 3621.887338879819,\n      \"key_1\": 779,\n      \"key_2\": true\n    }\n  ]\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        },
+                        {
+                            "name": "{id}",
+                            "description": "",
+                            "item": [
+                                {
+                                    "id": "6835c9c5-7b63-4256-9930-e253e34db2db",
+                                    "name": "Get Order",
+                                    "request": {
+                                        "name": "Get Order",
+                                        "description": {
+                                            "content": "Get details of a specific order",
+                                            "type": "text/plain"
+                                        },
+                                        "url": {
+                                            "path": [
+                                                "v1",
+                                                "orders",
+                                                ":id"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": [
+                                                {
+                                                    "type": "any",
+                                                    "value": "<string>",
+                                                    "key": "id",
+                                                    "disabled": false,
+                                                    "description": {
+                                                        "content": "(Required) ",
+                                                        "type": "text/plain"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "GET",
+                                        "body": {},
+                                        "auth": null
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "41f6fab6-bbe0-4072-88a8-329725f17f98",
+                                            "name": "A successful response.",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "v1",
+                                                        "orders",
+                                                        ":id"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": [
+                                                        {
+                                                            "disabled": false,
+                                                            "description": {
+                                                                "content": "(Required) ",
+                                                                "type": "text/plain"
+                                                            },
+                                                            "type": "any",
+                                                            "value": "<string>",
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "application/json"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {}
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "body": "{\n  \"order\": {\n    \"id\": \"<string>\",\n    \"merchantId\": \"<string>\",\n    \"storeId\": \"<string>\",\n    \"customerId\": \"<string>\",\n    \"cashierId\": \"<string>\",\n    \"orderNumber\": \"<string>\",\n    \"status\": \"ORDER_STATUS_UNSPECIFIED\",\n    \"paymentMethod\": \"PAYMENT_METHOD_UNSPECIFIED\",\n    \"subtotal\": \"<double>\",\n    \"taxAmount\": \"<double>\",\n    \"discountAmount\": \"<double>\",\n    \"totalAmount\": \"<double>\",\n    \"paidAmount\": \"<double>\",\n    \"changeAmount\": \"<double>\",\n    \"items\": [\n      {\n        \"id\": \"<string>\",\n        \"productId\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"variantId\": \"<string>\",\n        \"variantName\": \"<string>\",\n        \"quantity\": \"<double>\",\n        \"unitPrice\": \"<double>\",\n        \"totalPrice\": \"<double>\",\n        \"notes\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"productId\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"variantId\": \"<string>\",\n        \"variantName\": \"<string>\",\n        \"quantity\": \"<double>\",\n        \"unitPrice\": \"<double>\",\n        \"totalPrice\": \"<double>\",\n        \"notes\": \"<string>\"\n      }\n    ],\n    \"createdAt\": \"<dateTime>\",\n    \"updatedAt\": \"<dateTime>\"\n  }\n}",
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "json"
+                                        },
+                                        {
+                                            "id": "0beaf331-5e50-46e7-96a7-435310910df3",
+                                            "name": "An unexpected error response.",
+                                            "originalRequest": {
+                                                "url": {
+                                                    "path": [
+                                                        "v1",
+                                                        "orders",
+                                                        ":id"
+                                                    ],
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "query": [],
+                                                    "variable": [
+                                                        {
+                                                            "disabled": false,
+                                                            "description": {
+                                                                "content": "(Required) ",
+                                                                "type": "text/plain"
+                                                            },
+                                                            "type": "any",
+                                                            "value": "<string>",
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                },
+                                                "header": [
+                                                    {
+                                                        "key": "Accept",
+                                                        "value": "application/json"
+                                                    }
+                                                ],
+                                                "method": "GET",
+                                                "body": {}
+                                            },
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"details\": [\n    {\n      \"@type\": \"<string>\",\n      \"key_0\": \"string\"\n    },\n    {\n      \"@type\": \"<string>\",\n      \"key_0\": 3621.887338879819,\n      \"key_1\": 779,\n      \"key_2\": true\n    }\n  ]\n}",
+                                            "cookie": [],
+                                            "_postman_previewlanguage": "json"
+                                        }
+                                    ],
+                                    "event": [],
+                                    "protocolProfileBehavior": {
+                                        "disableBodyPruning": true
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "event": [],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "/"
+        }
+    ],
+    "info": {
+        "_postman_id": "a0a4c70f-9f2b-481d-b7d8-5bf5afb7a9d6",
+        "name": "omnipos/order/v1/order.proto",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": {
+            "content": "",
+            "type": "text/plain"
+        }
+    }
+}
