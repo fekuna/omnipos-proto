@@ -1,27 +1,44 @@
-# OmniPOS Postman Collections
+# OmniPOS API - Postman Collection
 
-This directory contains Postman Collection v2 files for all OmniPOS microservices.
+This directory contains a unified Postman Collection for all OmniPOS microservices.
 
-## Usage
+## Quick Start
 
-1.  Open Postman.
-2.  Click **Import**.
-3.  Drag and drop the `.postman_collection.json` files from this directory.
-4.  Each file will create a new collection in Postman with pre-configured requests.
+1. Open Postman
+2. Click **Import**
+3. Drag and drop `omnipos-api.postman_collection.json`
+4. The collection will be imported with all services organized in folders
 
-## Included Collections
+## Collection Structure
 
-- `audit-v1-audit`
-- `customer-v1-customer`
-- `order-v1-order`
-- `payment-v1-payment`
-- `product-v1-inventory`
-- `product-v1-product`
-- `store-v1-store`
-- `user-v1-merchant`
-- `user-v1-role`
-- `user-v1-user`
+The collection is organized with the following service folders:
 
-## Environment Variables
+- **Audit V1 Audit** - Audit logging endpoints
+- **Customer V1 Customer** - Customer management endpoints
+- **Inventory Service** - Inventory management endpoints
+- **Merchant Service** - Merchant authentication and management
+- **Order V1 Order** - Order processing endpoints
+- **Payment V1 Payment** - Payment processing endpoints
+- **Product Service** - Product catalog endpoints
+- **Role Service** - Role and permission management
+- **Store V1 Store** - Store management endpoints
+- **User Service** - User management endpoints
 
-The collections are configured to use a `{{baseUrl}}` variable. Make sure to create an Environment in Postman and set `baseUrl` to your API gateway URL (e.g., `http://localhost:8080`).
+## Environment Setup
+
+The collection uses a `{{baseUrl}}` variable. Create a Postman Environment with:
+
+```
+baseUrl: http://localhost:8080
+```
+
+Or use your API Gateway URL in production.
+
+## Authentication
+
+Most endpoints require authentication. After logging in via:
+
+- `Merchant Service > Merchant Login` or
+- `User Service > User Login`
+
+Copy the `access_token` from the response and set it in your environment or use Postman's Authorization tab.
