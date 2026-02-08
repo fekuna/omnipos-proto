@@ -1,0 +1,530 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "omnipos/order/v1/order.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "OrderService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/dashboard/stats": {
+      "get": {
+        "summary": "Get Dashboard Stats",
+        "description": "Get aggregated metrics for the dashboard",
+        "operationId": "OrderService_GetDashboardStats",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetDashboardStatsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "tags": [
+          "Order"
+        ]
+      }
+    },
+    "/v1/orders": {
+      "get": {
+        "summary": "List Orders",
+        "description": "List orders with usage filtering",
+        "operationId": "OrderService_ListOrders",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ListOrdersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "customerId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "ORDER_STATUS_UNSPECIFIED",
+              "ORDER_STATUS_PENDING",
+              "ORDER_STATUS_PAID",
+              "ORDER_STATUS_CANCELLED",
+              "ORDER_STATUS_REFUNDED"
+            ],
+            "default": "ORDER_STATUS_UNSPECIFIED"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "tags": [
+          "Order"
+        ]
+      },
+      "post": {
+        "summary": "Create Order",
+        "description": "Create a new order with items",
+        "operationId": "OrderService_CreateOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CreateOrderResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateOrderRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Order"
+        ]
+      }
+    },
+    "/v1/orders/{id}": {
+      "get": {
+        "summary": "Get Order",
+        "description": "Get details of a specific order",
+        "operationId": "OrderService_GetOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetOrderResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Order"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Any": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "CreateOrderItemInput": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string"
+        },
+        "variantId": {
+          "type": "string",
+          "title": "Optional"
+        },
+        "quantity": {
+          "type": "number",
+          "format": "double"
+        },
+        "unitPrice": {
+          "type": "number",
+          "format": "double",
+          "description": "Sent from frontend to lock price, or validate backend? backend should validate."
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateOrderRequest": {
+      "type": "object",
+      "properties": {
+        "storeId": {
+          "type": "string",
+          "title": "Optional, defaults to merchant's default store or cashier's store"
+        },
+        "customerId": {
+          "type": "string",
+          "title": "Optional"
+        },
+        "paymentMethod": {
+          "$ref": "#/definitions/PaymentMethod"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/CreateOrderItemInput"
+          }
+        },
+        "paidAmount": {
+          "type": "number",
+          "format": "double",
+          "title": "Amount tendered by customer"
+        }
+      }
+    },
+    "CreateOrderResponse": {
+      "type": "object",
+      "properties": {
+        "order": {
+          "$ref": "#/definitions/Order"
+        }
+      }
+    },
+    "DailySales": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "total": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "GetDashboardStatsResponse": {
+      "type": "object",
+      "properties": {
+        "totalRevenue": {
+          "type": "number",
+          "format": "double"
+        },
+        "totalOrders": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalItemsSold": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "revenueTrendPercent": {
+          "type": "number",
+          "format": "double"
+        },
+        "ordersTrendPercent": {
+          "type": "number",
+          "format": "double"
+        },
+        "salesChart": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/DailySales"
+          }
+        },
+        "topProducts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/TopProductStat"
+          }
+        },
+        "recentTransactions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Order"
+          }
+        }
+      }
+    },
+    "GetOrderResponse": {
+      "type": "object",
+      "properties": {
+        "order": {
+          "$ref": "#/definitions/Order"
+        }
+      }
+    },
+    "ListOrdersResponse": {
+      "type": "object",
+      "properties": {
+        "orders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Order"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "merchantId": {
+          "type": "string"
+        },
+        "storeId": {
+          "type": "string"
+        },
+        "customerId": {
+          "type": "string",
+          "title": "Optional"
+        },
+        "cashierId": {
+          "type": "string",
+          "title": "User ID of the cashier"
+        },
+        "orderNumber": {
+          "type": "string",
+          "title": "Human readable ID"
+        },
+        "status": {
+          "$ref": "#/definitions/OrderStatus"
+        },
+        "paymentMethod": {
+          "$ref": "#/definitions/PaymentMethod"
+        },
+        "subtotal": {
+          "type": "number",
+          "format": "double"
+        },
+        "taxAmount": {
+          "type": "number",
+          "format": "double"
+        },
+        "discountAmount": {
+          "type": "number",
+          "format": "double"
+        },
+        "totalAmount": {
+          "type": "number",
+          "format": "double"
+        },
+        "paidAmount": {
+          "type": "number",
+          "format": "double"
+        },
+        "changeAmount": {
+          "type": "number",
+          "format": "double"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/OrderItem"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "OrderItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "productId": {
+          "type": "string"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "variantId": {
+          "type": "string",
+          "title": "Optional"
+        },
+        "variantName": {
+          "type": "string",
+          "title": "Optional"
+        },
+        "quantity": {
+          "type": "number",
+          "format": "double"
+        },
+        "unitPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "totalPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "OrderStatus": {
+      "type": "string",
+      "enum": [
+        "ORDER_STATUS_UNSPECIFIED",
+        "ORDER_STATUS_PENDING",
+        "ORDER_STATUS_PAID",
+        "ORDER_STATUS_CANCELLED",
+        "ORDER_STATUS_REFUNDED"
+      ],
+      "default": "ORDER_STATUS_UNSPECIFIED"
+    },
+    "PaymentMethod": {
+      "type": "string",
+      "enum": [
+        "PAYMENT_METHOD_UNSPECIFIED",
+        "PAYMENT_METHOD_CASH",
+        "PAYMENT_METHOD_QRIS",
+        "PAYMENT_METHOD_DEBIT",
+        "PAYMENT_METHOD_CREDIT"
+      ],
+      "default": "PAYMENT_METHOD_UNSPECIFIED"
+    },
+    "Status": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/Any"
+          }
+        }
+      }
+    },
+    "TopProductStat": {
+      "type": "object",
+      "properties": {
+        "productName": {
+          "type": "string"
+        },
+        "salesCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "revenue": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    }
+  }
+}
