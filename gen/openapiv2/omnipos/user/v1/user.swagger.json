@@ -1,28 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "OmniPOS Merchant API",
-    "description": "API for managing merchant operations in OmniPOS",
-    "version": "1.0",
-    "contact": {
-      "name": "OmniPOS API Support",
-      "email": "api@omnipos.com"
-    }
+    "title": "omnipos/user/v1/user.proto",
+    "version": "version not set"
   },
   "tags": [
     {
-      "name": "MerchantService"
-    },
-    {
       "name": "UserService"
-    },
-    {
-      "name": "RoleService"
     }
-  ],
-  "schemes": [
-    "http",
-    "https"
   ],
   "consumes": [
     "application/json"
@@ -31,228 +16,6 @@
     "application/json"
   ],
   "paths": {
-    "/v1/auth/refresh": {
-      "post": {
-        "summary": "Refresh Access Token",
-        "description": "Get a new access token using a valid refresh token",
-        "operationId": "MerchantService_RefreshToken",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/RefreshTokenResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/Status"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RefreshTokenRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Authentication"
-        ],
-        "security": []
-      }
-    },
-    "/v1/merchant/current": {
-      "get": {
-        "summary": "Get Current Merchant",
-        "description": "Retrieve currently authenticated merchant details from JWT token",
-        "operationId": "MerchantService_GetCurrentMerchant",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/GetCurrentMerchantResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/Status"
-            }
-          }
-        },
-        "tags": [
-          "Merchant"
-        ]
-      }
-    },
-    "/v1/merchant/login": {
-      "post": {
-        "summary": "Merchant Login",
-        "description": "Authenticate merchant and receive access token",
-        "operationId": "MerchantService_LoginMerchant",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/LoginMerchantResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/Status"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/LoginMerchantRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Authentication"
-        ],
-        "security": []
-      }
-    },
-    "/v1/permissions": {
-      "get": {
-        "summary": "List Permissions",
-        "description": "List all system permissions",
-        "operationId": "RoleService_ListPermissions",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/ListPermissionsResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/Status"
-            }
-          }
-        },
-        "tags": [
-          "Role Management"
-        ]
-      }
-    },
-    "/v1/roles": {
-      "get": {
-        "summary": "List Roles",
-        "description": "List all available roles",
-        "operationId": "RoleService_ListRoles",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/ListRolesResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/Status"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "Role Management"
-        ]
-      },
-      "post": {
-        "summary": "Create Role",
-        "description": "Create a new role",
-        "operationId": "RoleService_CreateRole",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/CreateRoleResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/Status"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateRoleRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Role Management"
-        ]
-      }
-    },
-    "/v1/roles/{id}": {
-      "get": {
-        "summary": "Get Role",
-        "description": "Get role details",
-        "operationId": "RoleService_GetRole",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/GetRoleResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/Status"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "Role Management"
-        ]
-      }
-    },
     "/v1/users": {
       "get": {
         "summary": "List Users",
@@ -471,31 +234,6 @@
       },
       "additionalProperties": {}
     },
-    "CreateRoleRequest": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "permissionIds": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "CreateRoleResponse": {
-      "type": "object",
-      "properties": {
-        "role": {
-          "$ref": "#/definitions/Role"
-        }
-      }
-    },
     "CreateUserRequest": {
       "type": "object",
       "properties": {
@@ -532,75 +270,11 @@
         }
       }
     },
-    "GetCurrentMerchantResponse": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "timezone": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "userManagementEnabled": {
-          "type": "boolean"
-        }
-      }
-    },
-    "GetRoleResponse": {
-      "type": "object",
-      "properties": {
-        "role": {
-          "$ref": "#/definitions/Role"
-        }
-      }
-    },
     "GetUserResponse": {
       "type": "object",
       "properties": {
         "user": {
           "$ref": "#/definitions/User"
-        }
-      }
-    },
-    "ListPermissionsResponse": {
-      "type": "object",
-      "properties": {
-        "permissions": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/Permission"
-          }
-        }
-      }
-    },
-    "ListRolesResponse": {
-      "type": "object",
-      "properties": {
-        "roles": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/Role"
-          }
-        },
-        "total": {
-          "type": "integer",
-          "format": "int32"
         }
       }
     },
@@ -617,38 +291,6 @@
         "total": {
           "type": "integer",
           "format": "int32"
-        }
-      }
-    },
-    "LoginMerchantRequest": {
-      "type": "object",
-      "properties": {
-        "phone": {
-          "type": "string"
-        },
-        "pin": {
-          "type": "string"
-        }
-      }
-    },
-    "LoginMerchantResponse": {
-      "type": "object",
-      "properties": {
-        "accessToken": {
-          "type": "string"
-        },
-        "refreshToken": {
-          "type": "string"
-        },
-        "userManagementEnabled": {
-          "type": "boolean"
-        },
-        "availableUsers": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/UserInfo"
-          }
         }
       }
     },
@@ -697,25 +339,6 @@
           "type": "string"
         },
         "module": {
-          "type": "string"
-        }
-      }
-    },
-    "RefreshTokenRequest": {
-      "type": "object",
-      "properties": {
-        "refreshToken": {
-          "type": "string"
-        }
-      }
-    },
-    "RefreshTokenResponse": {
-      "type": "object",
-      "properties": {
-        "accessToken": {
-          "type": "string"
-        },
-        "refreshToken": {
           "type": "string"
         }
       }
@@ -830,37 +453,8 @@
           "type": "string",
           "format": "date-time"
         }
-      }
-    },
-    "UserInfo": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "fullName": {
-          "type": "string"
-        },
-        "roleName": {
-          "type": "string"
-        }
-      }
+      },
+      "title": "User depends on Role (defined in role.proto, same package)"
     }
-  },
-  "securityDefinitions": {
-    "Bearer": {
-      "type": "apiKey",
-      "description": "JWT token for authentication. Format: 'Bearer {token}'",
-      "name": "Authorization",
-      "in": "header"
-    }
-  },
-  "security": [
-    {
-      "Bearer": []
-    }
-  ]
+  }
 }

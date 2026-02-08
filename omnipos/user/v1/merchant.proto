@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package omnipos.user.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "omnipos/auth/v1/auth_options.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/fekuna/omnipos-proto/gen/go/omnipos/user/v1;omniposuserv1";
+
+// ==========================================
+// Merchant Service
+// ==========================================
+
+service MerchantService {
+  rpc LoginMerchant(LoginMerchantRequest) returns (LoginMerchantResponse) {
+    option (omnipos.auth.v1.public_endpoint) = true; // No authentication required
+    option (google.api.http) = {
+      post: "/v1/merchant/login"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Merchant Login"
+      description: "Authenticate merchant and receive access token"
+      tags: "Authentication"
+      security: {} /* Public endpoint, no auth required */
+    };
+  }
+
+  rpc GetCurrentMerchant(google.protobuf.Empty) returns (GetCurrentMerchantResponse) {
+    option (google.api.http) = {get: "/v1/merchant/current"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get Current Merchant"
+      description: "Retrieve currently authenticated merchant details from JWT token"
+      tags: "Merchant"
+    };
+  }
+
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {
+    option (omnipos.auth.v1.public_endpoint) = true; // Public endpoint
+    option (google.api.http) = {
+      post: "/v1/auth/refresh"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Refresh Access Token"
+      description: "Get a new access token using a valid refresh token"
+      tags: "Authentication"
+      security: {} /* Public endpoint */
+    };
+  }
+}
+
+message GetCurrentMerchantResponse {
+  string id = 1;
+  string name = 2;
+  string phone = 3;
+  string timezone = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  bool user_management_enabled = 7;
+}
+
+message LoginMerchantRequest {
+  string phone = 1 [(validate.rules).string = {
+    min_len: 3
+    max_len: 64
+  }];
+  string pin = 2 [(validate.rules).string = {
+    min_len: 6
+    max_len: 6
+  }];
+}
+
+message LoginMerchantResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+  bool user_management_enabled = 4;
+  repeated UserInfo available_users = 5;
+}
+
+message UserInfo {
+  string id = 1;
+  string username = 2;
+  string full_name = 3;
+  string role_name = 4;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1 [(validate.rules).string.min_len = 1];
+}
+
+message RefreshTokenResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}

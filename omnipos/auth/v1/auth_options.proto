@@ -4,7 +4,7 @@ package omnipos.auth.v1;
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "github.com/fekuna/omnipos-proto/proto/auth/v1;authv1";
+option go_package = "github.com/fekuna/omnipos-proto/gen/go/omnipos/auth/v1;omniposauthv1";
 
 // Custom option to mark an RPC method as a public endpoint that doesn't require authentication
 extend google.protobuf.MethodOptions {

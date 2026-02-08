@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package omnipos.user.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/fekuna/omnipos-proto/gen/go/omnipos/user/v1;omniposuserv1";
+
+// ==========================================
+// Role Service (RBAC)
+// ==========================================
+
+service RoleService {
+  rpc ListRoles(ListRolesRequest) returns (ListRolesResponse) {
+    option (google.api.http) = {get: "/v1/roles"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "List Roles"
+      description: "List all available roles"
+      tags: "Role Management"
+    };
+  }
+
+  rpc CreateRole(CreateRoleRequest) returns (CreateRoleResponse) {
+    option (google.api.http) = {
+      post: "/v1/roles"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Create Role"
+      description: "Create a new role"
+      tags: "Role Management"
+    };
+  }
+
+  rpc GetRole(GetRoleRequest) returns (GetRoleResponse) {
+    option (google.api.http) = {get: "/v1/roles/{id}"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get Role"
+      description: "Get role details"
+      tags: "Role Management"
+    };
+  }
+
+  rpc ListPermissions(google.protobuf.Empty) returns (ListPermissionsResponse) {
+    option (google.api.http) = {get: "/v1/permissions"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "List Permissions"
+      description: "List all system permissions"
+      tags: "Role Management"
+    };
+  }
+}
+
+message Role {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  bool is_system = 4;
+  repeated Permission permissions = 5;
+}
+
+message Permission {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string description = 4;
+  string module = 5;
+}
+
+message ListRolesRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message ListRolesResponse {
+  repeated Role roles = 1;
+  int32 total = 2;
+}
+
+message CreateRoleRequest {
+  string name = 1 [(validate.rules).string.min_len = 1];
+  string description = 2;
+  repeated string permission_ids = 3;
+}
+
+message CreateRoleResponse {
+  Role role = 1;
+}
+
+message GetRoleRequest {
+  string id = 1 [(validate.rules).string.uuid = true];
+}
+
+message GetRoleResponse {
+  Role role = 1;
+}
+
+message ListPermissionsResponse {
+  repeated Permission permissions = 1;
+}
